@@ -55,7 +55,7 @@ defimpl Formula.Evaluable, for: Formula.Function do
     {arguments, sheet} = @protocol.evaluate(arguments, sheet, opts)
     case get_in(opts, [:functions, {name, arity}]) do
       nil ->
-        @for.Runtime.exec(name, arguments, sheet, opts)
+        {@for.Runtime.exec(name, arguments, opts), sheet}
       fun ->
         fun.(arguments, sheet, opts)
     end

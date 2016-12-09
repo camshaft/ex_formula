@@ -1,8 +1,16 @@
 defmodule Formula do
   def compile!(sheet) do
     sheet
-    |> Stream.map(fn({key, value}) ->
-      {key, parse!(value)}
+    |> Stream.map(fn
+      ({key, "=" <> value}) ->
+        {key, parse!(value)}
+      ({key, value}) when is_binary(value) ->
+        case Decimal.parse(value) do
+          {:ok, value} ->
+            {key, value}
+          :error ->
+            {key, value}
+        end
     end)
     |> Enum.into(%{})
   end
