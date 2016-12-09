@@ -40,11 +40,16 @@ end
 
 defimpl Formula.Evaluable, for: Formula.Symbol do
   def evaluate(%{name: name}, sheet, opts) do
+    strict? = opts[:strict_reference?]
     case Map.fetch(sheet, name) do
       {:ok, formula} ->
         sheet = Map.put(sheet, name, %Formula.Evaluator.Pending{})
         {value, sheet} = @protocol.evaluate(formula, sheet, opts)
         {value, Map.put(sheet, name, value)}
+      :error when strict? == true ->
+        {%Formula.Error.Name{}, sheet}
+      :error ->
+        {nil, sheet}
     end
   end
 end
