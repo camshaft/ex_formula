@@ -1,4 +1,4 @@
-defmodule FormulaParser.Function do
+defmodule Formula.Function do
   defstruct [:name,
              :arguments]
 

@@ -1,4 +1,4 @@
-defmodule FormulaParser.Symbol do
+defmodule Formula.Symbol do
   defstruct [:name]
 
   def new({:symbol, _, name}) do

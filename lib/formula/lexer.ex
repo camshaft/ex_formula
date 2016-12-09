@@ -1,4 +1,4 @@
-defmodule FormulaParser.Lexer do
+defmodule Formula.Lexer do
   def tokenize!(binary) do
     binary
     |> tokenize(nil, [], [])
@@ -83,16 +83,11 @@ defmodule FormulaParser.Lexer do
       "FALSE" ->
         {:string, 1, false}
       buffer ->
-        case Integer.parse(buffer) do
-          {v, ""} ->
+        case Decimal.parse(buffer) do
+          {:ok, v} ->
             {:string, 1, v}
-          _ ->
-            case Float.parse(buffer) do
-              {v, ""} ->
-                {:string, 1, v}
-              _ ->
-                {:symbol, 1, buffer}
-            end
+          :error ->
+            {:symbol, 1, buffer}
         end
     end
   end

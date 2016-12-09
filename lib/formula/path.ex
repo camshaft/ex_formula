@@ -1,4 +1,4 @@
-defmodule FormulaParser.Range do
+defmodule Formula.Path do
   defstruct [:value]
 
   def new({:range, _, value}) do

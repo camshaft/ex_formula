@@ -1,24 +1,15 @@
-defmodule Test.FormulaParser do
+defmodule Test.Formula do
   use ExUnit.Case
-  import FormulaParser
-  alias FormulaParser.{Function,Symbol}
+  import Formula
+  alias Decimal, as: D
 
-  test "simple addition" do
-    assert %Function{name: :+, arguments: [1, 1]} = parse!("""
-    1 + 1
-    """)
-  end
+  test "bmi" do
+    sheet =
+      %{"weight" => "99.7903", "height" => "1.8796"}
+      |> Map.merge(%{"bmi" => "weight / (height ^ 2)"})
+      |> compile!()
+      |> evaluate!()
 
-  test "symbol subtraction" do
-    assert %Function{name: :-, arguments: [%Symbol{name: "A2"}, %Symbol{name: "B4"}]} =
-      parse!("""
-      A2 - B4
-      """)
-  end
-
-  test "function call" do
-    assert %Function{name: "FOO", arguments: [1,2,3,4,5]} = parse!("""
-    FOO(1,    2, 3,  4,5)
-    """)
+    assert 28 = sheet["bmi"] |> D.to_float() |> trunc()
   end
 end

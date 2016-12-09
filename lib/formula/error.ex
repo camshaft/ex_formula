@@ -1,4 +1,4 @@
-defmodule FormulaParser.Error do
+defmodule Formula.Error do
   defexception [:message]
 
   errors = %{
@@ -30,5 +30,13 @@ defmodule FormulaParser.Error do
     def new(unquote(symbol)) do
       %unquote(name){}
     end
+
+    def error?(%unquote(name){}) do
+      true
+    end
+  end
+
+  def error?(_) do
+    false
   end
 end
