@@ -11,7 +11,7 @@ defmodule Formula.Mixfile do
   end
 
   def application do
-    [applications: [:logger]]
+    [applications: [:decimal, :logger]]
   end
 
   defp deps do
